@@ -1,3 +1,28 @@
+# THIS IS A FORK
+This fork implements the pull request [#162](https://github.com/temporalio/helm-charts/pull/162/) to add support for mLTS authentication 
+
+### Install with mTLS support
+
+If you need to support mTLS for your Temporal environment.
+
+You first need to generate the certificates. You can find some examples here:  [TLS customization](https://github.com/temporalio/customization-samples/tree/master/tls)
+
+You also need to create configMaps for your generated certificats.
+```bash
+~/temporal-helm$ kubectl create configmap ca --from-file=/opt/ca.crt
+```
+
+After that, you can set the mTLS configuration in your deployment like [the example: ](values/values.mtls.yaml)
+
+mTLS configuration can be configured globally or independently for internode or frontend.
+
+By default both will be activated, secure by design, always. (can be disabled unitary)
+
+Be sure to set the right configMaps names and the SERVER_NAME variables
+```bash
+~/temporal-helm$ helm install -f values/values.mtls.yaml temporaltest . --timeout 900s
+```
+
 # Temporal Helm Chart
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ftemporalio%2Ftemporal-helm-charts.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Ftemporalio%2Ftemporal-helm-charts?ref=badge_shield)
 
